@@ -73,6 +73,12 @@ private:
 	 */
 	void OnHealthChanged(float Health) const;
 
+	/** Update Character health when landing on the ground.
+	 * @param Hit Result describing the landing that resulted in a valid landing spot.
+	 */
+	UFUNCTION()
+	void OnGroundLanded(const FHitResult& Hit);
+	
 protected:
 	/** Camera spring arm positioning the camera behind the Character. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess = "true"))
@@ -92,6 +98,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamageVelocity = FVector2D(900.f, 1200.f);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamage = FVector2D(10.f, 100.f);
 	
 private:
 	bool IsRunPressed = false;

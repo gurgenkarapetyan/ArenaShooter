@@ -23,19 +23,38 @@ void UHealthComponent::BeginPlay()
 	}
 }
 
+void UHealthComponent::SetHealth(float NewHealth)
+{
+	Health = FMath::Clamp(NewHealth, 0.f, MaxHealth);
+	OnHealthChanged.Broadcast(Health);
+}
+
 void UHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-	OnHealthChanged.Broadcast(Health);
-	
-	if (Damage <= 0.f || IsDead())
+	if (Damage <= 0.f || IsDead() || !GetWorld())
 	{
 		return;
 	}
 	
-	Health = FMath::Clamp(Health - Damage, 0.f, MaxHealth);
+	SetHealth(Health - Damage);
+	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
+	
 	if (IsDead())
 	{
 		OnDeath.Broadcast();
+	}
+	else if (bAutoHeal)
+	{
+		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &UHealthComponent::HealUpdate, HealUpdateTime, true, HealDelay);
+	}
+}
+
+void UHealthComponent::HealUpdate()
+{
+	SetHealth(Health + HealModifier);
+	if (FMath::IsNearlyEqual(Health, MaxHealth) && GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	}
 }
 

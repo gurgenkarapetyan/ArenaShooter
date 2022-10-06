@@ -24,7 +24,7 @@ public:
 
 	/** If Health < 0.f, change Character state to dead. */
 	UFUNCTION(BlueprintCallable)
-	bool IsDead() const { return Health <= 0.f; }
+	bool IsDead() const { return FMath::IsNearlyZero(Health); }
 
 protected:
 	virtual void BeginPlay() override;
@@ -36,6 +36,12 @@ private:
 	UFUNCTION()
 	void OnTakeRadialDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, FVector Origin, FHitResult HitInfo, class AController* InstigatedBy, AActor* DamageCauser);
 
+	/** Refill Character health. */
+	void HealUpdate();
+
+	/** Set Character new Health and broadcast changes. */
+	void SetHealth(float NewHealth);
+	
 public:
 	/** Delegate for broadcast when Character is dies. */
 	FOnDeath OnDeath;
@@ -47,8 +53,24 @@ protected:
 	/** Maximum health. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000."))
 	float MaxHealth = 100.f;
+
+	/** Refill Character health after certain amount of time. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
+	bool bAutoHeal = true;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+	float HealUpdateTime = 1.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+	float HealDelay = 3.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+	float HealModifier = 5.0f;
 	
 private:
 	/** Current health. */
 	float Health = 0.f;
+
+	/** Heal time handler. */
+	FTimerHandle HealTimerHandle;
 };
