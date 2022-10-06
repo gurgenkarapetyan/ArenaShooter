@@ -8,6 +8,10 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UHealthComponent;
+class UTextRenderComponent;
+
+DEFINE_LOG_CATEGORY_STATIC(BaseCharacterLog, All, All)
 
 UCLASS()
 class ARENASHOOTER_API AShooterBaseCharacter : public ACharacter
@@ -15,21 +19,23 @@ class ARENASHOOTER_API AShooterBaseCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	AShooterBaseCharacter(const FObjectInitializer& ObjInit);
 
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/** Return Character running state. */
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	FORCEINLINE bool IsRunning() const { return IsRunPressed && IsMovingForward && !GetVelocity().IsZero(); }
 	
+	/** Get character running direction for locomotion. */
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	float GetMovementDirection() const;
+
+	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
+
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
@@ -49,7 +55,6 @@ private:
 	*/
 	void LookUp(const float Value);
 
-
 	/**
 	* Rotate controller based on mouse X movement.
 	* @param Value The input value from mouse movement.
@@ -60,6 +65,14 @@ private:
 	void OnStartRunning();
 	void OnStopRunning();
 	
+	/** Handle Character death. */
+	void OnDeath();
+
+	/** Update Character display health.
+	 * @param Health updated health to be displayed.
+	 */
+	void OnHealthChanged(float Health) const;
+
 protected:
 	/** Camera spring arm positioning the camera behind the Character. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess = "true"))
@@ -69,6 +82,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UCameraComponent* CameraComponent;
 
+	/** Health Component. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UHealthComponent* HealthComponent;
+
+	/** Health Text to display above Character. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UTextRenderComponent* HealthTextComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* DeathAnimMontage;
+	
 private:
 	bool IsRunPressed = false;
 	bool IsMovingForward = false;

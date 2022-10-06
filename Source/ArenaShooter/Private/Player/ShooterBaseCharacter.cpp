@@ -3,8 +3,10 @@
 
 #include "Player/ShooterBaseCharacter.h"
 
+#include "HealthComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ShooterMovementComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -20,23 +22,44 @@ AShooterBaseCharacter::AShooterBaseCharacter(const FObjectInitializer& ObjInit)
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+
+	HealthTextComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Health Text Component"));
+	HealthTextComponent->SetupAttachment(GetRootComponent());
 }
 
-// Called when the game starts or when spawned
 void AShooterBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	check(HealthComponent);
+	check(HealthTextComponent);
+	check(GetCharacterMovement());
+
+	OnHealthChanged(HealthComponent->GetHealth());
+	HealthComponent->OnDeath.AddUObject(this, &AShooterBaseCharacter::OnDeath);
+	HealthComponent->OnHealthChanged.AddUObject(this, &AShooterBaseCharacter::OnHealthChanged);
 }
 
-// Called every frame
+void AShooterBaseCharacter::OnDeath()
+{
+	PlayAnimMontage(DeathAnimMontage);
+
+	GetCharacterMovement()->DisableMovement();
+	SetLifeSpan(5.f);
+}
+
+void AShooterBaseCharacter::OnHealthChanged(float Health) const
+{
+	HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));	
+}
+
 void AShooterBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-// Called to bind functionality to input
 void AShooterBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -54,11 +77,22 @@ void AShooterBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 void AShooterBaseCharacter::MoveForward(const float Value)
 {
 	IsMovingForward = Value > 0.f;
+
+	if (Value == 0.f)
+	{
+		return; 
+	}
+	
 	AddMovementInput(GetActorForwardVector(), Value);
 }
 
 void AShooterBaseCharacter::MoveRight(const float Value)
 {
+	if (Value == 0.f)
+	{
+		return; 
+	}
+	
 	AddMovementInput(GetActorRightVector(), Value);
 }
 
@@ -80,4 +114,20 @@ void AShooterBaseCharacter::OnStartRunning()
 void AShooterBaseCharacter::OnStopRunning()
 {
 	IsRunPressed = false;
+}
+
+float AShooterBaseCharacter::GetMovementDirection() const
+{
+	if (GetVelocity().IsZero())
+	{
+		return 0.f;
+	}
+	
+	const FVector VelocityNormal = GetVelocity().GetSafeNormal();
+	const float AngelBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
+	const FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
+
+	const float Degrees = FMath::RadiansToDegrees(AngelBetween);
+	
+	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 }
