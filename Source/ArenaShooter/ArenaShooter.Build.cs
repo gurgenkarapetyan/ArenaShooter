@@ -12,7 +12,14 @@ public class ArenaShooter : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 		
-		PublicIncludePaths.AddRange(new string[] { "ArenaShooter/Public/Player", "ArenaShooter/Public/Components", "ArenaShooter/Public/Dev" });
+		PublicIncludePaths.AddRange(new string[]
+		{
+			"ArenaShooter/Public/Player", 
+			"ArenaShooter/Public/Components", 
+			"ArenaShooter/Public/Dev",
+			"ArenaShooter/Public/Weapon",
+			"ArenaShooter/Public/UI"
+		});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
