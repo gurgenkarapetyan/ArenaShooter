@@ -34,6 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	float GetMovementDirection() const;
 
+	/** Get Character Health Component. */
 	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 protected:
@@ -101,6 +102,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UWeaponComponent* WeaponComponent;
 	
+	/** Montage to play when Character dies. */
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathAnimMontage;
 
