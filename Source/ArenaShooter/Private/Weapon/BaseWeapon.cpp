@@ -21,39 +21,6 @@ void ABaseWeapon::BeginPlay()
 	
 }
 
-void ABaseWeapon::Fire()
-{
-	MakeShot();
-}
-
-void ABaseWeapon::MakeShot() 
-{
-	if (!GetWorld())
-	{
-		return;
-	}
-
-	FVector TraceStart, TraceEnd;
-	if (!GetTraceData(TraceStart, TraceEnd))
-	{
-		return;
-	}
-
-	FHitResult HitResult;
-	MakeHit(HitResult, TraceStart, TraceEnd);
-	
-	if (HitResult.bBlockingHit)
-	{
-		MakeDamage(HitResult);
-		DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red, false, 3.0f, 0, 3.f);
-		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.f, 24, FColor::Red, false, 5.f);
-	}
-	else
-	{
-		DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), TraceEnd, FColor::Red, false, 3.0f, 0, 3.f);
-	}
-}
-
 bool ABaseWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
 {
 	FVector ViewLocation;
@@ -108,15 +75,4 @@ void ABaseWeapon::MakeHit(FHitResult& HitResult, const FVector& TraceStart, cons
 FVector ABaseWeapon::GetMuzzleWorldLocation() const
 {
 	return WeaponMeshComponent->GetSocketLocation(MuzzleSocketName);
-}
-
-void ABaseWeapon::MakeDamage(const FHitResult& HitResult)
-{
-	AActor* const DamagedActor = HitResult.GetActor();
-	if (DamagedActor == nullptr)
-	{
-		return;
-	}
-
-	DamagedActor->TakeDamage(DamagedAmount, FDamageEvent(), GetPlayerController(), this);
 }

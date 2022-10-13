@@ -1,7 +1,7 @@
 // Arena Shooter
 
 
-#include "Weapon/WeaponComponent.h"
+#include "Components/WeaponComponent.h"
 
 #include "BaseWeapon.h"
 #include "GameFramework/Character.h"
@@ -11,7 +11,6 @@ UWeaponComponent::UWeaponComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-// Called when the game starts
 void UWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -51,6 +50,7 @@ void UWeaponComponent::StartFire()
 
 	CurrentWeapon->StartFire();
 }
+
 void UWeaponComponent::StopFire()
 {
 	if (CurrentWeapon == nullptr)

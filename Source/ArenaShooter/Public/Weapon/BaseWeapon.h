@@ -16,7 +16,12 @@ class ARENASHOOTER_API ABaseWeapon : public AActor
 public:	
 	ABaseWeapon();
 
-	virtual void Fire();
+	virtual bool IsValid() PURE_VIRTUAL(MyClass::IsValid, return false;);
+	
+	/** Called when the fire button is pressed/released. */
+	virtual void StartFire() PURE_VIRTUAL(ABaseWeapon::StartFire);
+	// virtual void StopFire() PURE_VIRTUAL(ABaseWeapon::StopFire);
+	virtual void StopFire() {};
 	
 protected:
 	virtual void BeginPlay() override;
@@ -24,13 +29,13 @@ protected:
 	APlayerController* GetPlayerController() const;
 
 	/** Send bullet and check if it hits something. */
-	void MakeShot() ;
+	virtual void MakeShot() PURE_VIRTUAL(ABaseWeapon::MakeShot);
 
 	/** Get related data for line trace to draw.
 	 * @param TraceStart start point location of the line trace to draw.
 	 * @param TraceEnd end point location of the line trace to draw.
 	 */
-	bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
+	virtual bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
 
 	/** Get Character's camera view point location.
 	 *	@param ViewLocation Character's camera location
@@ -48,25 +53,20 @@ protected:
 	/** Get World location of Weapon's Skeletal Mesh muzzle socket. */
 	FVector GetMuzzleWorldLocation() const;
 
-	/** Apply damage to the Character.
-	 * @param HitResult related information of line trace after hit.
-	 */
-	void MakeDamage(const FHitResult& HitResult);
-	
 protected:
 	/** Skeletal Mesh for the Weapon. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USkeletalMeshComponent* WeaponMeshComponent;
 
 	/** Muzzle socket name in Weapon Skeleton Mesh. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
 	FName MuzzleSocketName = "MuzzleSocket";
 
 	/** Maximum length of line trace to reach. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float TraceMaxDistance = 1500.f;
 
 	/** Amount of damage to apply when bullet hits Character. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float DamagedAmount = 10.f;
 };

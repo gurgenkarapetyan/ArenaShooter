@@ -19,7 +19,7 @@ public:
 	/** Called when the fire button is pressed/released. */
 	void StartFire();
 	void StopFire();
-
+	
 protected:
 	virtual void BeginPlay() override;
 
