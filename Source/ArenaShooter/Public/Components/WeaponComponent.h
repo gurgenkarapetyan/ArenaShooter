@@ -16,9 +16,10 @@ class ARENASHOOTER_API UWeaponComponent : public UActorComponent
 public:	
 	UWeaponComponent();
 
-	/** Called when the fire button is pressed. */
-	void Fire();
-	
+	/** Called when the fire button is pressed/released. */
+	void StartFire();
+	void StopFire();
+
 protected:
 	virtual void BeginPlay() override;
 

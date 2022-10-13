@@ -42,12 +42,21 @@ void UWeaponComponent::SpawnWeapon()
 	CurrentWeapon->SetOwner(GetOwner());
 }
 
-void UWeaponComponent::Fire()
+void UWeaponComponent::StartFire()
 {
 	if (CurrentWeapon == nullptr)
 	{
 		return;
 	}
 
-	CurrentWeapon->Fire();
+	CurrentWeapon->StartFire();
+}
+void UWeaponComponent::StopFire()
+{
+	if (CurrentWeapon == nullptr)
+	{
+		return;
+	}
+
+	CurrentWeapon->StopFire();
 }
