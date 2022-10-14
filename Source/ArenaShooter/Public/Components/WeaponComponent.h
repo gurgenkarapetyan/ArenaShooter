@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ArenaShooter/Public/CoreTypes.h"
 #include "Components/ActorComponent.h"
 #include "WeaponComponent.generated.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogWeaponComponent, All, All)
 
 class ABaseWeapon;
 
@@ -22,6 +25,9 @@ public:
 
 	/** Called when switching weapons. */
 	void SwitchWeapon();
+
+	/** Called when reloading weapon. */
+	void Reload();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -48,20 +54,46 @@ private:
 	 */
 	void PlayAnimMontage(UAnimMontage* Animation) const;
 
-	/** Init and subscribe to equip finished anim notify. */
+	/** Init and subscribe to anim notifies. */
 	void InitAnimations();
+
+	// /** Find anim notify in the animation.
+	//  * @param Animation to find the notify.
+	//  */
+	// template<typename T>
+	// T* FindNotifyByClass(UAnimSequenceBase* Animation);
 
 	/** Handle when equip finished anim notify event is triggered.
 	 * @param MeshComponent Character that triggered event.
 	 */
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
 
+	/** Handle when reload finished anim notify event is triggered.
+	 * @param MeshComponent Character that triggered event.
+	 */
+	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
+	
 	ACharacter* GetWeaponOwner() const;
 
+	/** Check if weapon can fire or any animation is currently playing. */
+	bool CanFire() const;
+
+	/** Check if can equip or any animation is currently playing. */
+	bool CanEquip() const;
+
+	/** Check if can reload or any animation is currently playing. */
+	bool CanReload() const;
+
+	/** When clip is empty trigger delegate to automatically switch the clip. */
+	void OnEmptyClip();
+
+	/** Change the clip when reload button is pressed. */
+	void ChangeClip();
+	
 protected:
 	/** Array of weapons that will be in Characters inventory. */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TArray<TSubclassOf<ABaseWeapon>> WeaponClasses;
+	TArray<FWeaponData> WeaponData;
 
 	/** Name of the socket where the weapon will be attached to the Character's hand. */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -85,4 +117,35 @@ private:
 
 	/** Current weapon index that we are equipped with. */
 	int32 CurrentWeaponIndex = 0;
+
+	/** Based on weapon type set current reload montage. */
+	UPROPERTY()
+	UAnimMontage* CurrentReloadAnimMontage = nullptr;
+
+	/** If currently equip anim montage is playing any other action must be prevented. */
+	bool bEquipAnimInProgress = false;
+
+	/** If currently reload anim montage is playing any other action must be prevented. */
+	bool bReloadAnimInProgress = false;
 };
+
+// template <typename T>
+// T* UWeaponComponent::FindNotifyByClass(UAnimSequenceBase* Animation)
+// {
+// 	if (Animation == nullptr)
+// 	{
+// 		return nullptr;
+// 	}
+// 	
+// 	const TArray<FAnimNotifyEvent> NotifyEvents = Animation->Notifies;
+// 	for (const FAnimNotifyEvent NotifyEvent : NotifyEvents)
+// 	{
+// 		T* AnimNotify = Cast<T>(NotifyEvent.Notify);
+// 		if (AnimNotify)
+// 		{
+// 			return AnimNotify;
+// 		}
+// 	}
+// 		
+// 	return nullptr;
+// }

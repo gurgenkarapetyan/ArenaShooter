@@ -18,7 +18,7 @@ void ARifleWeapon::StopFire()
 
 void ARifleWeapon::MakeShot() 
 {
-	if (!GetWorld())
+	if (!GetWorld() || IsAmmoEmpty())
 	{
 		return;
 	}
@@ -42,6 +42,8 @@ void ARifleWeapon::MakeShot()
 	{
 		DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), TraceEnd, FColor::Red, false, 3.0f, 0, 3.f);
 	}
+
+	DecreaseAmmo();
 }
 
 bool ARifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const

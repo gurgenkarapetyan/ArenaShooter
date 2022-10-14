@@ -13,14 +13,16 @@ void ALauncherWeapon::StartFire()
 
 void ALauncherWeapon::MakeShot()
 {
-	if (!GetWorld())
+	if (!GetWorld() || IsAmmoEmpty())
 	{
+		StopFire();
 		return;
 	}
 
 	FVector TraceStart, TraceEnd;
 	if (!GetTraceData(TraceStart, TraceEnd))
 	{
+		StopFire();
 		return;
 	}
 
@@ -39,4 +41,6 @@ void ALauncherWeapon::MakeShot()
 		Projectile->SetOwner(GetOwner());
 		Projectile->FinishSpawning(SpawnTransform);
 	}
+
+	DecreaseAmmo();
 }

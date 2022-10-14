@@ -18,7 +18,11 @@ ABaseWeapon::ABaseWeapon()
 void ABaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	check(WeaponMeshComponent);
+	checkf(DefaultAmmoData.Bullets > 0, TEXT("Bullets count can't be less or equal zero"));
+	checkf(DefaultAmmoData.Clips > 0, TEXT("Clips count can't be less or equal zero"));
 	
+	CurrentAmmoData = DefaultAmmoData;
 }
 
 bool ABaseWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
@@ -75,4 +79,60 @@ void ABaseWeapon::MakeHit(FHitResult& HitResult, const FVector& TraceStart, cons
 FVector ABaseWeapon::GetMuzzleWorldLocation() const
 {
 	return WeaponMeshComponent->GetSocketLocation(MuzzleSocketName);
+}
+
+void ABaseWeapon::DecreaseAmmo()
+{
+	if (CurrentAmmoData.Bullets == 0)
+	{
+		UE_LOG(BaseWeaponLog, Warning, TEXT("Clip is empty."));
+		return;
+	}
+	
+	CurrentAmmoData.Bullets--;
+	LogAmmo();
+
+	if (IsClipEmpty() && !IsAmmoEmpty())
+	{
+		OnClipEmptySignature.Broadcast();
+	}
+}
+
+bool ABaseWeapon::IsAmmoEmpty() const
+{
+	return !CurrentAmmoData.Infinite && CurrentAmmoData.Clips == 0 && IsClipEmpty();
+}
+
+bool ABaseWeapon::IsClipEmpty() const
+{
+	return CurrentAmmoData.Bullets == 0;
+}
+
+void ABaseWeapon::ChangeClip()
+{
+	if (!CurrentAmmoData.Infinite)
+	{
+		if (CurrentAmmoData.Clips == 0)
+		{
+			UE_LOG(BaseWeaponLog, Warning, TEXT("No More Clips"));
+			return;
+		}
+		CurrentAmmoData.Clips--;
+	}
+
+	CurrentAmmoData.Bullets = DefaultAmmoData.Bullets;
+	UE_LOG(LogTemp, Warning, TEXT("------------- Change Clip -------------"));
+}
+
+bool ABaseWeapon::CanReload() const
+{
+	return CurrentAmmoData.Bullets < DefaultAmmoData.Bullets && CurrentAmmoData.Clips > 0;
+}
+
+void ABaseWeapon::LogAmmo() const
+{
+	FString AmmoInfo = "Ammo: " + FString::FromInt(CurrentAmmoData.Bullets) + " / ";
+	AmmoInfo += CurrentAmmoData.Infinite ? "Infinite" : FString::FromInt(CurrentAmmoData.Clips);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *AmmoInfo);
 }

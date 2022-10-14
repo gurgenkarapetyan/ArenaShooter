@@ -104,6 +104,7 @@ void AShooterBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &UWeaponComponent::StartFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &UWeaponComponent::StopFire);
 	PlayerInputComponent->BindAction("SwitchWeapon", IE_Released, WeaponComponent, &UWeaponComponent::SwitchWeapon);
+	PlayerInputComponent->BindAction("Reload", IE_Released, WeaponComponent, &UWeaponComponent::Reload);
 }
 
 void AShooterBaseCharacter::MoveForward(const float Value)

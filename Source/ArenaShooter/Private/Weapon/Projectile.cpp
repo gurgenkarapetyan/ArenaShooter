@@ -38,17 +38,12 @@ void AProjectile::BeginPlay()
 
 void AProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnProjectileHit"));
 	if (!GetWorld())
 	{
 		return;
 	}
 
 	ProjectileMovementComponent->StopMovementImmediately();
-
-	UE_LOG(LogTemp, Warning, TEXT("GetActorLocation: %s"), *GetActorLocation().ToString());
-	UE_LOG(LogTemp, Warning, TEXT("GetOwner: %s"), *GetOwner()->GetName());
-	
 	UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageAmount, GetActorLocation(), DamageRadius, UDamageType::StaticClass(), {GetOwner()}, this, GetController(), bDoFullDamage);
 	DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24, FColor::Red, false, 5.f);
 	

@@ -3,10 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ArenaShooter/Public/CoreTypes.h"
 #include "GameFramework/Actor.h"
 #include "BaseWeapon.generated.h"
 
 DEFINE_LOG_CATEGORY_STATIC(BaseWeaponLog, All, All)
+
+DECLARE_MULTICAST_DELEGATE(FOnClipEmptySignature);
+
 
 UCLASS()
 class ARENASHOOTER_API ABaseWeapon : public AActor
@@ -20,8 +24,11 @@ public:
 	
 	/** Called when the fire button is pressed/released. */
 	virtual void StartFire() PURE_VIRTUAL(ABaseWeapon::StartFire);
-	// virtual void StopFire() PURE_VIRTUAL(ABaseWeapon::StopFire);
 	virtual void StopFire() {};
+
+	void ChangeClip();
+
+	bool CanReload() const;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -53,20 +60,43 @@ protected:
 	/** Get World location of Weapon's Skeletal Mesh muzzle socket. */
 	FVector GetMuzzleWorldLocation() const;
 
+	/** Decrease bullets from clip when firing. */
+	void DecreaseAmmo();
+
+	/** Check if any bullet/clip is left. */
+	bool IsAmmoEmpty() const;
+
+	/** Check if bullets in clip are empty. */
+	bool IsClipEmpty() const;
+
+	/** Helper function for outputting information about weapon when firing. */
+	void LogAmmo() const;
+
+public:
+	/** Delegate for automatically changing the clip when all ammo is used. */
+	FOnClipEmptySignature OnClipEmptySignature;
+	
 protected:
 	/** Skeletal Mesh for the Weapon. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USkeletalMeshComponent* WeaponMeshComponent;
 
 	/** Muzzle socket name in Weapon Skeleton Mesh. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	FName MuzzleSocketName = "MuzzleSocket";
 
 	/** Maximum length of line trace to reach. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float TraceMaxDistance = 1500.f;
 
 	/** Amount of damage to apply when bullet hits Character. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float DamagedAmount = 10.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	FAmmoData DefaultAmmoData { 15, 10, false };
+
+private:
+	/** Struct data for storing related information about weapon. */
+	FAmmoData CurrentAmmoData;
 };
