@@ -28,6 +28,16 @@ public:
 
 	/** Called when reloading weapon. */
 	void Reload();
+
+	/** If current weapon is set return weapon UI data
+	 * @param UIData struct holding current weapon data. 
+	 */
+	bool GetWeaponUIData(FWeaponUIData& UIData) const;
+
+	/** If current weapon is set return weapon ammo data.
+	 *	@param AmmoData struct holding current weapon ammo data.
+	 */
+	bool GetWeaponAmmoData(FAmmoData& AmmoData) const;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -56,12 +66,6 @@ private:
 
 	/** Init and subscribe to anim notifies. */
 	void InitAnimations();
-
-	// /** Find anim notify in the animation.
-	//  * @param Animation to find the notify.
-	//  */
-	// template<typename T>
-	// T* FindNotifyByClass(UAnimSequenceBase* Animation);
 
 	/** Handle when equip finished anim notify event is triggered.
 	 * @param MeshComponent Character that triggered event.
@@ -128,24 +132,3 @@ private:
 	/** If currently reload anim montage is playing any other action must be prevented. */
 	bool bReloadAnimInProgress = false;
 };
-
-// template <typename T>
-// T* UWeaponComponent::FindNotifyByClass(UAnimSequenceBase* Animation)
-// {
-// 	if (Animation == nullptr)
-// 	{
-// 		return nullptr;
-// 	}
-// 	
-// 	const TArray<FAnimNotifyEvent> NotifyEvents = Animation->Notifies;
-// 	for (const FAnimNotifyEvent NotifyEvent : NotifyEvents)
-// 	{
-// 		T* AnimNotify = Cast<T>(NotifyEvent.Notify);
-// 		if (AnimNotify)
-// 		{
-// 			return AnimNotify;
-// 		}
-// 	}
-// 		
-// 	return nullptr;
-// }

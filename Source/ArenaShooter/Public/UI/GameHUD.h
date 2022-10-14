@@ -17,6 +17,13 @@ class ARENASHOOTER_API AGameHUD : public AHUD
 public:
 	virtual void DrawHUD() override;
 
+protected:
+	virtual void BeginPlay() override;
+
 private:
 	void DrawCrossHair();
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
 };

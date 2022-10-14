@@ -12,6 +12,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	check(MaxHealth > 0);
 
 	Health = MaxHealth;
 	OnHealthChanged.Broadcast(Health);

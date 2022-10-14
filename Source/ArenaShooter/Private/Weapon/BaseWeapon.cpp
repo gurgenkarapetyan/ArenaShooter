@@ -90,7 +90,6 @@ void ABaseWeapon::DecreaseAmmo()
 	}
 	
 	CurrentAmmoData.Bullets--;
-	LogAmmo();
 
 	if (IsClipEmpty() && !IsAmmoEmpty())
 	{

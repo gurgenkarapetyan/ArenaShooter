@@ -23,8 +23,12 @@ public:
 	FORCEINLINE float GetHealth() const { return Health; }
 
 	/** If Health < 0.f, change Character state to dead. */
-	UFUNCTION(BlueprintCallable)
-	bool IsDead() const { return FMath::IsNearlyZero(Health); }
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	FORCEINLINE bool IsDead() const { return FMath::IsNearlyZero(Health); }
+
+	/** Convert health into percentage for displaying in Health UMG. */
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	FORCEINLINE float GetHealthPercent() const { return Health / MaxHealth; }
 
 protected:
 	virtual void BeginPlay() override;

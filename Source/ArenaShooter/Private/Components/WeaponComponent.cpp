@@ -234,6 +234,28 @@ void UWeaponComponent::Reload()
 	ChangeClip();
 }
 
+bool UWeaponComponent::GetWeaponUIData(FWeaponUIData& UIData) const
+{
+	if (CurrentWeapon)
+	{
+		UIData = CurrentWeapon->GetUIData();
+		return true;
+	}
+
+	return false;
+}
+
+bool UWeaponComponent::GetWeaponAmmoData(FAmmoData& AmmoData) const
+{
+	if (CurrentWeapon)
+	{
+		AmmoData = CurrentWeapon->GetAmmoData();
+		return true;
+	}
+
+	return false;
+}
+
 ACharacter* UWeaponComponent::GetWeaponOwner() const
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());

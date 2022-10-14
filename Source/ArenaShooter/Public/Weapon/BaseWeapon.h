@@ -26,6 +26,12 @@ public:
 	virtual void StartFire() PURE_VIRTUAL(ABaseWeapon::StartFire);
 	virtual void StopFire() {};
 
+	/** Get UIData data struct. */
+	FORCEINLINE FWeaponUIData GetUIData() const { return UIData; }
+
+	/** Get weapon current ammo data struct. */
+	FORCEINLINE FAmmoData GetAmmoData() const { return CurrentAmmoData; }
+	
 	void ChangeClip();
 
 	bool CanReload() const;
@@ -93,9 +99,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float DamagedAmount = 10.f;
 
+	/** Struct data for storing default information about weapon. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	FAmmoData DefaultAmmoData { 15, 10, false };
 
+	/** Struct data for storing default UI information about weapon. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FWeaponUIData UIData;
+	
 private:
 	/** Struct data for storing related information about weapon. */
 	FAmmoData CurrentAmmoData;
