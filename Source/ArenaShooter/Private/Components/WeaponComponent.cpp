@@ -54,9 +54,22 @@ void UWeaponComponent::SpawnWeapons()
 	}
 }
 
-void UWeaponComponent::OnEmptyClip()
+void UWeaponComponent::OnEmptyClip(ABaseWeapon* AmmoEmptyWeapon)
 {
-	ChangeClip();
+	if (CurrentWeapon == AmmoEmptyWeapon)
+	{
+		ChangeClip();
+	}
+	else
+	{
+		for (const auto Weapon : Weapons)
+		{
+			if (Weapon == AmmoEmptyWeapon)
+			{
+				Weapon->ChangeClip();
+			}
+		}
+	}
 }
 
 void UWeaponComponent::ChangeClip()
@@ -261,3 +274,17 @@ ACharacter* UWeaponComponent::GetWeaponOwner() const
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	return Character ? Character : nullptr;
 }
+
+bool UWeaponComponent::TryToAddAmmo(const TSubclassOf<ABaseWeapon> WeaponType, const int32 ClipsAmount)
+{
+	for (const auto Weapon: Weapons)
+	{
+		if (Weapon && Weapon->IsA(WeaponType))
+		{
+			return Weapon->TryToAddAmmo(ClipsAmount);
+		}
+	}
+	
+	return false;
+}
+

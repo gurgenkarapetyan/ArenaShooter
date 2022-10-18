@@ -53,7 +53,7 @@ void UHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const
 void UHealthComponent::HealUpdate()
 {
 	SetHealth(Health + HealModifier);
-	if (FMath::IsNearlyEqual(Health, MaxHealth) && GetWorld())
+	if (IsHealthFull() && GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	}
@@ -62,4 +62,20 @@ void UHealthComponent::HealUpdate()
 void UHealthComponent::OnTakeRadialDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, FVector Origin, FHitResult HitInfo, class AController* InstigatedBy, AActor* DamageCauser)
 {
 	Health -= Damage;
+}
+
+bool UHealthComponent::TryToAddHealth(const float HealthAmount)
+{
+	if (IsDead() || IsHealthFull())
+	{
+		return false;
+	}
+
+	SetHealth(Health + HealthAmount);
+	return true;
+}
+
+bool UHealthComponent::IsHealthFull() const
+{
+	return FMath::IsNearlyEqual(Health, MaxHealth);
 }

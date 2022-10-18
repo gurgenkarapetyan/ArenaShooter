@@ -93,7 +93,7 @@ void ABaseWeapon::DecreaseAmmo()
 
 	if (IsClipEmpty() && !IsAmmoEmpty())
 	{
-		OnClipEmptySignature.Broadcast();
+		OnClipEmptySignature.Broadcast(this);
 	}
 }
 
@@ -126,6 +126,47 @@ void ABaseWeapon::ChangeClip()
 bool ABaseWeapon::CanReload() const
 {
 	return CurrentAmmoData.Bullets < DefaultAmmoData.Bullets && CurrentAmmoData.Clips > 0;
+}
+
+bool ABaseWeapon::TryToAddAmmo(const int32 ClipsAmount)
+{
+	if (CurrentAmmoData.Infinite || IsAmmoFull() || ClipsAmount <= 0)
+	{
+		return false;
+	}
+
+	if (IsAmmoEmpty())
+	{
+		// When Clip and Bullets where empty
+		CurrentAmmoData.Clips = FMath::Clamp(ClipsAmount, 0, DefaultAmmoData.Clips + 1);
+		OnClipEmptySignature.Broadcast(this);
+	}
+	else if (CurrentAmmoData.Clips < DefaultAmmoData.Clips)
+	{
+		const int32 NextClipsAmount = CurrentAmmoData.Clips + ClipsAmount;
+		if (DefaultAmmoData.Clips - NextClipsAmount >= 0)
+		{
+			CurrentAmmoData.Clips = NextClipsAmount;
+		}
+		else
+		{
+			CurrentAmmoData.Clips = DefaultAmmoData.Clips;
+			CurrentAmmoData.Bullets = DefaultAmmoData.Bullets;
+
+		}
+	}
+	else
+	{
+		// When Clips are full and we need only to add bullets
+		CurrentAmmoData.Bullets = DefaultAmmoData.Bullets;
+	}
+
+	return true;
+}
+
+bool ABaseWeapon::IsAmmoFull() const
+{
+	return CurrentAmmoData.Clips == DefaultAmmoData.Clips && CurrentAmmoData.Bullets == DefaultAmmoData.Bullets;
 }
 
 void ABaseWeapon::LogAmmo() const

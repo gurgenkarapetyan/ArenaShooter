@@ -30,6 +30,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	FORCEINLINE float GetHealthPercent() const { return Health / MaxHealth; }
 
+	/** Try to add health to the player when item is picked.
+	 * @param HealthAmount amount of health to be added to the player. 
+	 */
+	bool TryToAddHealth(const float HealthAmount);
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,6 +50,9 @@ private:
 
 	/** Set Character new Health and broadcast changes. */
 	void SetHealth(float NewHealth);
+
+	/** Check if Player health is full. */
+	bool IsHealthFull() const;
 	
 public:
 	/** Delegate for broadcast when Character is dies. */

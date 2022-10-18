@@ -38,6 +38,13 @@ public:
 	 *	@param AmmoData struct holding current weapon ammo data.
 	 */
 	bool GetWeaponAmmoData(FAmmoData& AmmoData) const;
+
+	
+	/** Try to fill weapon with Clips and Bullets.
+	 * @param WeaponType weapon type we need to add ammunition. 
+	 * @param ClipsAmount number of clips to fill weapon with.
+	 */
+	bool TryToAddAmmo(const TSubclassOf<ABaseWeapon>WeaponType, const int32 ClipsAmount);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -88,8 +95,10 @@ private:
 	/** Check if can reload or any animation is currently playing. */
 	bool CanReload() const;
 
-	/** When clip is empty trigger delegate to automatically switch the clip. */
-	void OnEmptyClip();
+	/** When clip is empty trigger delegate to automatically switch the clip.
+	 * @param AmmoEmptyWeapon weapon that we need to reload.
+	 */
+	void OnEmptyClip(ABaseWeapon* AmmoEmptyWeapon);
 
 	/** Change the clip when reload button is pressed. */
 	void ChangeClip();

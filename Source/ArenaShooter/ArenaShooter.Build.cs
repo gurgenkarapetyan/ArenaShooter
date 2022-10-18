@@ -19,7 +19,8 @@ public class ArenaShooter : ModuleRules
 			"ArenaShooter/Public/Dev",
 			"ArenaShooter/Public/Weapon",
 			"ArenaShooter/Public/UI",
-			"ArenaShooter/Public/Animations"
+			"ArenaShooter/Public/Animations",
+			"ArenaShooter/Public/PickUps"
 		});
 
 		// Uncomment if you are using Slate UI

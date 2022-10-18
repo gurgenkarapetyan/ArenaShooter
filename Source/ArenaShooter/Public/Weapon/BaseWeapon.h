@@ -9,8 +9,7 @@
 
 DEFINE_LOG_CATEGORY_STATIC(BaseWeaponLog, All, All)
 
-DECLARE_MULTICAST_DELEGATE(FOnClipEmptySignature);
-
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnClipEmptySignature, ABaseWeapon*);
 
 UCLASS()
 class ARENASHOOTER_API ABaseWeapon : public AActor
@@ -19,8 +18,6 @@ class ARENASHOOTER_API ABaseWeapon : public AActor
 	
 public:	
 	ABaseWeapon();
-
-	virtual bool IsValid() PURE_VIRTUAL(MyClass::IsValid, return false;);
 	
 	/** Called when the fire button is pressed/released. */
 	virtual void StartFire() PURE_VIRTUAL(ABaseWeapon::StartFire);
@@ -32,9 +29,15 @@ public:
 	/** Get weapon current ammo data struct. */
 	FORCEINLINE FAmmoData GetAmmoData() const { return CurrentAmmoData; }
 	
+	/** Handle weapon clip change functionality. */
 	void ChangeClip();
 
 	bool CanReload() const;
+
+	/** Try to fill weapon with Clips and Bullets.
+	 * @param ClipsAmount number of clips to fill weapon with.
+	 */
+	bool TryToAddAmmo(const int32 ClipsAmount);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -75,6 +78,9 @@ protected:
 	/** Check if bullets in clip are empty. */
 	bool IsClipEmpty() const;
 
+	/** Check if Clips and Bullets are full. */
+	bool IsAmmoFull() const;
+	
 	/** Helper function for outputting information about weapon when firing. */
 	void LogAmmo() const;
 
