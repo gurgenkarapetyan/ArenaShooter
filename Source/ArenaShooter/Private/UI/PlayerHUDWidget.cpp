@@ -9,7 +9,7 @@
 
 float UPlayerHUDWidget::GetHealthPercent() const
 {
-	const UHealthComponent* HealthComponent = Utils::GetPlayerComponent<UHealthComponent>(GetOwningPlayerPawn());
+	const UHealthComponent* const HealthComponent = Utils::GetPlayerComponent<UHealthComponent>(GetOwningPlayerPawn());
 	if (HealthComponent == nullptr)
 	{
 		return 0.f;
@@ -20,13 +20,13 @@ float UPlayerHUDWidget::GetHealthPercent() const
 
 bool UPlayerHUDWidget::IsPlayerAlive() const
 {
-	const UHealthComponent* HealthComponent = Utils::GetPlayerComponent<UHealthComponent>(GetOwningPlayerPawn());
+	const UHealthComponent* const HealthComponent = Utils::GetPlayerComponent<UHealthComponent>(GetOwningPlayerPawn());
 	return HealthComponent && !HealthComponent->IsDead();
 }
 
 bool UPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 {
-	const UWeaponComponent* WeaponComponent = Utils::GetPlayerComponent<UWeaponComponent>(GetOwningPlayerPawn());
+	const UWeaponComponent* const WeaponComponent = Utils::GetPlayerComponent<UWeaponComponent>(GetOwningPlayerPawn());
 	if (WeaponComponent == nullptr)
 	{
 		return false;
@@ -37,7 +37,7 @@ bool UPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 
 bool UPlayerHUDWidget::GetCurrentWeaponAmmoData(FAmmoData& UIData) const
 {
-	const UWeaponComponent* WeaponComponent = Utils::GetPlayerComponent<UWeaponComponent>(GetOwningPlayerPawn());
+	const UWeaponComponent* const WeaponComponent = Utils::GetPlayerComponent<UWeaponComponent>(GetOwningPlayerPawn());
 	if (WeaponComponent == nullptr)
 	{
 		return false;
@@ -50,4 +50,23 @@ bool UPlayerHUDWidget::IsPlayerSpectating() const
 {
 	const APlayerController* const PlayerController = GetOwningPlayer();
 	return PlayerController && PlayerController->GetStateName() == NAME_Spectating;
+}
+
+bool UPlayerHUDWidget::Initialize()
+{
+	UHealthComponent* const HealthComponent = Utils::GetPlayerComponent<UHealthComponent>(GetOwningPlayerPawn());
+	if (HealthComponent)
+	{
+		HealthComponent->OnHealthChanged.AddUObject(this, &UPlayerHUDWidget::OnHealthChanged);
+	}
+
+	return Super::Initialize();
+}
+
+void UPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
+{
+	if (HealthDelta < 0.f)
+	{
+		OnTakeDamage();
+	}
 }

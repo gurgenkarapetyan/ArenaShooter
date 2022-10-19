@@ -11,6 +11,9 @@ DEFINE_LOG_CATEGORY_STATIC(BaseWeaponLog, All, All)
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnClipEmptySignature, ABaseWeapon*);
 
+class UNiagaraSystem;
+class UNiagaraComponent;
+
 UCLASS()
 class ARENASHOOTER_API ABaseWeapon : public AActor
 {
@@ -84,6 +87,9 @@ protected:
 	/** Helper function for outputting information about weapon when firing. */
 	void LogAmmo() const;
 
+	/** Create Niagara muzzle effect. */
+	UNiagaraComponent* SpawnMuzzleFX() const;
+	
 public:
 	/** Delegate for automatically changing the clip when all ammo is used. */
 	FOnClipEmptySignature OnClipEmptySignature;
@@ -112,6 +118,10 @@ protected:
 	/** Struct data for storing default UI information about weapon. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	FWeaponUIData UIData;
+
+	/** Muzzle Niagara VFX*/
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UNiagaraSystem* MuzzleFX;
 	
 private:
 	/** Struct data for storing related information about weapon. */

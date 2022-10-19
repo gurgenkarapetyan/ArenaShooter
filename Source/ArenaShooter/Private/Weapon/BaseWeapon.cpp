@@ -4,6 +4,7 @@
 #include "Weapon/BaseWeapon.h"
 
 #include "DrawDebugHelpers.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/Character.h"
 
@@ -73,6 +74,7 @@ void ABaseWeapon::MakeHit(FHitResult& HitResult, const FVector& TraceStart, cons
 	
 	FCollisionQueryParams CollisionQueryParams;
 	CollisionQueryParams.AddIgnoredActor(GetOwner());
+	CollisionQueryParams.bReturnPhysicalMaterial = true;
 	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionQueryParams);
 }
 
@@ -175,4 +177,17 @@ void ABaseWeapon::LogAmmo() const
 	AmmoInfo += CurrentAmmoData.Infinite ? "Infinite" : FString::FromInt(CurrentAmmoData.Clips);
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *AmmoInfo);
+}
+
+UNiagaraComponent* ABaseWeapon::SpawnMuzzleFX() const
+{
+	return UNiagaraFunctionLibrary::SpawnSystemAttached(
+		MuzzleFX,
+		WeaponMeshComponent,
+		MuzzleSocketName,
+		FVector::ZeroVector,
+		FRotator::ZeroRotator,
+		EAttachLocation::SnapToTarget,
+		true
+	);
 }

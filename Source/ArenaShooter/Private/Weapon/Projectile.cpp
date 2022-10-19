@@ -5,6 +5,7 @@
 
 #include "DrawDebugHelpers.h"
 #include "Components/SphereComponent.h"
+#include "Components/WeaponFXComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -16,11 +17,14 @@ AProjectile::AProjectile()
 	CollisionComponent->InitSphereRadius(5.f);
 	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+	CollisionComponent->bReturnMaterialOnMove = true;
 	SetRootComponent(CollisionComponent);
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement Component"));
 	ProjectileMovementComponent->InitialSpeed = 2000.f;
 	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
+
+	WeaponFXComponent = CreateDefaultSubobject<UWeaponFXComponent>(TEXT("Weapon FX Component"));
 }
 
 void AProjectile::BeginPlay()
@@ -28,6 +32,7 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 	check(ProjectileMovementComponent);
 	check(CollisionComponent);
+	check(WeaponFXComponent);
 	
 	ProjectileMovementComponent->Velocity = ShotDirection * ProjectileMovementComponent->InitialSpeed;
 	SetLifeSpan(LifeSeconds);
@@ -44,9 +49,17 @@ void AProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* Oth
 	}
 
 	ProjectileMovementComponent->StopMovementImmediately();
-	UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageAmount, GetActorLocation(), DamageRadius, UDamageType::StaticClass(), {GetOwner()}, this, GetController(), bDoFullDamage);
-	DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24, FColor::Red, false, 5.f);
+	UGameplayStatics::ApplyRadialDamage(
+		GetWorld(),
+		DamageAmount,
+		GetActorLocation(),
+		DamageRadius, UDamageType::StaticClass(),
+		{GetOwner()}, this,
+		GetController(),
+	bDoFullDamage);
 	
+	// DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24, FColor::Red, false, 5.f);
+	WeaponFXComponent->PlayImpactFX(Hit);
 	Destroy();
 }
 

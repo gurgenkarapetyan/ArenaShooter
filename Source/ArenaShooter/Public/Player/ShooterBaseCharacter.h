@@ -73,7 +73,7 @@ private:
 	/** Update Character display health.
 	 * @param Health updated health to be displayed.
 	 */
-	void OnHealthChanged(float Health) const;
+	void OnHealthChanged(float Health, float HealthDelta) const;
 
 	/** Update Character health when landing on the ground.
 	 * @param Hit Result describing the landing that resulted in a valid landing spot.

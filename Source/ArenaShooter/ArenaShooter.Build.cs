@@ -8,19 +8,28 @@ public class ArenaShooter : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core",
+			"CoreUObject",
+			"Engine",
+			"InputCore",
+			"Niagara",
+			"PhysicsCore"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 		
 		PublicIncludePaths.AddRange(new string[]
 		{
 			"ArenaShooter/Public/Player", 
-			"ArenaShooter/Public/Components", 
+			"ArenaShooter/Public/Components",
 			"ArenaShooter/Public/Dev",
 			"ArenaShooter/Public/Weapon",
+			"ArenaShooter/Public/Components",
 			"ArenaShooter/Public/UI",
 			"ArenaShooter/Public/Animations",
-			"ArenaShooter/Public/PickUps"
+			"ArenaShooter/Public/PickUps",
 		});
 
 		// Uncomment if you are using Slate UI

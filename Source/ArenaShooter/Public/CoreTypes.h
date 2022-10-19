@@ -50,3 +50,41 @@ struct FWeaponUIData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	UTexture2D* CrosshairIcon;
 };
+
+// VFX 
+
+class UNiagaraSystem;
+
+USTRUCT(BlueprintType)
+struct FDecalData
+{
+	GENERATED_USTRUCT_BODY()
+
+	/** Decal Material. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UMaterialInterface* Material;
+	
+	/** Decal Size. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	FVector Size = FVector(10.f);
+
+	/** Life time of decal before destroy. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	float LifeTime = 5.f;
+
+	/** Animation time for alpha component of decal */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	float FadeOutTime = 0.7f;
+};
+
+USTRUCT(BlueprintType)
+struct FImpactData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UNiagaraSystem* NiagaraEffect;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	FDecalData DecalData;
+};

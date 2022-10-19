@@ -9,7 +9,7 @@
 DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All)
 
 DECLARE_MULTICAST_DELEGATE(FOnDeath)
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealtChanged, float)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnHealtChanged, float, float)
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ARENASHOOTER_API UHealthComponent : public UActorComponent
@@ -53,6 +53,9 @@ private:
 
 	/** Check if Player health is full. */
 	bool IsHealthFull() const;
+
+	/** Play Camera Shake effect when player takes damage. */
+	void PlayCameraShake() const;
 	
 public:
 	/** Delegate for broadcast when Character is dies. */
@@ -78,6 +81,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealModifier = 5.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	TSubclassOf<UCameraShakeBase> CameraShake;
 	
 private:
 	/** Current health. */

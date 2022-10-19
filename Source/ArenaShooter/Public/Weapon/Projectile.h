@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class UWeaponFXComponent;
 
 UCLASS()
 class ARENASHOOTER_API AProjectile : public AActor
@@ -47,6 +48,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	bool bDoFullDamage = false;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "VFX")
+	UWeaponFXComponent* WeaponFXComponent;
 	
 private:
 	/** Direction of projectile to move during shot. */
