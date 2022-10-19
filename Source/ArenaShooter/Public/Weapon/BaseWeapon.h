@@ -96,31 +96,31 @@ public:
 	
 protected:
 	/** Skeletal Mesh for the Weapon. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USkeletalMeshComponent* WeaponMeshComponent;
 
 	/** Muzzle socket name in Weapon Skeleton Mesh. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	FName MuzzleSocketName = "MuzzleSocket";
 
 	/** Maximum length of line trace to reach. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	float TraceMaxDistance = 1500.f;
 
 	/** Amount of damage to apply when bullet hits Character. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	float DamagedAmount = 10.f;
 
 	/** Struct data for storing default information about weapon. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	FAmmoData DefaultAmmoData { 15, 10, false };
 
 	/** Struct data for storing default UI information about weapon. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	FWeaponUIData UIData;
 
 	/** Muzzle Niagara VFX*/
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	UNiagaraSystem* MuzzleFX;
 	
 private:

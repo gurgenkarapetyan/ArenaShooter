@@ -49,21 +49,21 @@ private:
 	void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd) const;
 	
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "VFX")
 	UWeaponFXComponent* WeaponFXComponent;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "VFX")
 	UNiagaraSystem* TraceFX;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "VFX")
 	FString TraceTargetName = "TraceTarget";
 	
 	/** Time between shots during automatic fire. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Weapon")
 	float TimeBetweenShots = 0.1f;
 
 	/** Bullet deviation during fire. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Weapon")
 	float BulletSpread = 1.5f;
 	
 private:

@@ -43,7 +43,7 @@ protected:
 	USphereComponent* CollisionComponent;
 
 	/** Amount of time to respawn picked item again. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pickup")
 	float RespawnTime = 5.f;
 
 private:

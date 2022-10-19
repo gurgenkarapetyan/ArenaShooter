@@ -22,6 +22,6 @@ public:
 protected:
 	virtual void MakeShot() override;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<AProjectile> ProjectileClass;
 };

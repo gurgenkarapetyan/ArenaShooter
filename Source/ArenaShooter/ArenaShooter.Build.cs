@@ -15,6 +15,7 @@ public class ArenaShooter : ModuleRules
 			"Engine",
 			"InputCore",
 			"Niagara",
+			"GameplayTasks",
 			"PhysicsCore"
 		});
 
@@ -30,6 +31,8 @@ public class ArenaShooter : ModuleRules
 			"ArenaShooter/Public/UI",
 			"ArenaShooter/Public/Animations",
 			"ArenaShooter/Public/PickUps",
+			"ArenaShooter/Public/AI",
+			"ArenaShooter/Public/AI/Tasks",
 		});
 
 		// Uncomment if you are using Slate UI

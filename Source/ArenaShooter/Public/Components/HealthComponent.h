@@ -66,23 +66,23 @@ public:
 	
 protected:
 	/** Maximum health. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000."))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000."))
 	float MaxHealth = 100.f;
 
 	/** Refill Character health after certain amount of time. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heal")
 	bool bAutoHeal = true;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealUpdateTime = 1.f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealDelay = 3.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealModifier = 5.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	TSubclassOf<UCameraShakeBase> CameraShake;
 	
 private:

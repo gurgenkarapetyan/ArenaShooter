@@ -20,9 +20,9 @@ public:
 	void PlayImpactFX(const FHitResult& HitResult) const;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	FImpactData DefaultImpactData;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	TMap<UPhysicalMaterial*, FImpactData> ImpactDataMap;
 };

@@ -10,15 +10,15 @@ struct FAmmoData
 	GENERATED_USTRUCT_BODY()
 
 	/** Number of bullets that weapons has in the clip. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	int32 Bullets;
 
 	/** Number of clips. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components", meta = (EditCondition = "!Infinite"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components", meta = (EditCondition = "!Infinite"))
 	int32 Clips;
 
 	/** If weapon has an infinite number of clips. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	bool Infinite;
 };
 
@@ -28,11 +28,11 @@ struct FWeaponData
 	GENERATED_USTRUCT_BODY()
 
 	/**  Weapon class blueprint. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<ABaseWeapon> WeaponClass;
 	
 	/**  Based on weapon type reload anim montage. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	UAnimMontage* ReloadAnimMontage;
 };
 
@@ -43,11 +43,11 @@ struct FWeaponUIData
 	GENERATED_USTRUCT_BODY()
 
 	/** Weapon image icon based on weapon type. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	UTexture2D* MainIcon;
 	
 	/** Weapon crosshair icon based on weapon type. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	UTexture2D* CrosshairIcon;
 };
 
@@ -61,19 +61,19 @@ struct FDecalData
 	GENERATED_USTRUCT_BODY()
 
 	/** Decal Material. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	UMaterialInterface* Material;
 	
 	/** Decal Size. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	FVector Size = FVector(10.f);
 
 	/** Life time of decal before destroy. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	float LifeTime = 5.f;
 
 	/** Animation time for alpha component of decal */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	float FadeOutTime = 0.7f;
 };
 
@@ -82,9 +82,9 @@ struct FImpactData
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	UNiagaraSystem* NiagaraEffect;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	FDecalData DecalData;
 };

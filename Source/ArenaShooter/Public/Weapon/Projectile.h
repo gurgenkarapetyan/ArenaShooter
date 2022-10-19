@@ -37,19 +37,19 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	UProjectileMovementComponent* ProjectileMovementComponent;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	float DamageAmount = 50.f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	float DamageRadius = 200.f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	float LifeSeconds = 5.f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	bool bDoFullDamage = false;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "VFX")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "VFX")
 	UWeaponFXComponent* WeaponFXComponent;
 	
 private:

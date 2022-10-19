@@ -24,6 +24,6 @@ private:
 	void DrawCrossHair();
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
 };
