@@ -22,4 +22,13 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 	float Radius = 1000.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	FBlackboardKeySelector AimLocationKey;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	bool bSelfCenter = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI", meta = (EditCondition = "!bSelfCenter"))
+	FBlackboardKeySelector CenterActorKey;
 };

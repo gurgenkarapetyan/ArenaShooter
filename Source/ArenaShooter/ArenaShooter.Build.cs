@@ -16,7 +16,8 @@ public class ArenaShooter : ModuleRules
 			"InputCore",
 			"Niagara",
 			"GameplayTasks",
-			"PhysicsCore"
+			"PhysicsCore",
+			"NavigationSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
@@ -33,6 +34,7 @@ public class ArenaShooter : ModuleRules
 			"ArenaShooter/Public/PickUps",
 			"ArenaShooter/Public/AI",
 			"ArenaShooter/Public/AI/Tasks",
+			"ArenaShooter/Public/AI/Services",
 		});
 
 		// Uncomment if you are using Slate UI

@@ -4,13 +4,13 @@ class Utils
 {
 public:
 	template <typename T>
-	static T* GetPlayerComponent(APawn* PlayerPawn)
+	static T* GetPlayerComponent(AActor* Player)
 	{
-		if (PlayerPawn == nullptr)
+		if (Player == nullptr)
 		{
 			return nullptr;
 		}
 
-		return Cast<T>(PlayerPawn->GetComponentByClass(T::StaticClass()));
+		return Cast<T>(Player->GetComponentByClass(T::StaticClass()));
 	}
 };
