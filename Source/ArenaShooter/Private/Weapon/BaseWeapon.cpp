@@ -44,13 +44,28 @@ bool ABaseWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
 
 bool ABaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
 {
-	const APlayerController* const PlayerController = GetPlayerController();
-	if (PlayerController == nullptr)
+	const ACharacter* const Character = Cast<ACharacter>(GetOwner());
+	if (Character == nullptr)
 	{
 		return false;
 	}
 
-	PlayerController->GetPlayerViewPoint(ViewLocation, ViewRotation);
+	if (Character->IsPlayerControlled())
+	{
+		const APlayerController* const PlayerController = GetPlayerController();
+		if (PlayerController == nullptr)
+		{
+			return false;
+		}
+
+		PlayerController->GetPlayerViewPoint(ViewLocation, ViewRotation);
+	}
+	else
+	{
+		ViewLocation = GetMuzzleWorldLocation();
+		ViewRotation = WeaponMeshComponent->GetSocketRotation(MuzzleSocketName);
+	}
+	
 	return true;
 }
 

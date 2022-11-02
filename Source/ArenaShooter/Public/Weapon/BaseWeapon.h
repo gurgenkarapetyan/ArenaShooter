@@ -41,6 +41,9 @@ public:
 	 * @param ClipsAmount number of clips to fill weapon with.
 	 */
 	bool TryToAddAmmo(const int32 ClipsAmount);
+
+	/** Check if any bullet/clip is left. */
+	bool IsAmmoEmpty() const;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -74,9 +77,6 @@ protected:
 
 	/** Decrease bullets from clip when firing. */
 	void DecreaseAmmo();
-
-	/** Check if any bullet/clip is left. */
-	bool IsAmmoEmpty() const;
 
 	/** Check if bullets in clip are empty. */
 	bool IsClipEmpty() const;

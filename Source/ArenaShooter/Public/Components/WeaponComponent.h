@@ -20,11 +20,11 @@ public:
 	UWeaponComponent();
 
 	/** Called when the fire button is pressed/released. */
-	void StartFire();
+	virtual void StartFire();
 	void StopFire();
 
 	/** Called when switching weapons. */
-	void SwitchWeapon();
+	virtual void SwitchWeapon();
 
 	/** Called when reloading weapon. */
 	void Reload();
@@ -53,6 +53,17 @@ protected:
 	/** Spawn Weapons that the Character has in the inventory.. */
 	void SpawnWeapons();
 
+	/** Check if weapon can fire or any animation is currently playing. */
+	bool CanFire() const;
+
+	/** Check if can equip or any animation is currently playing. */
+	bool CanEquip() const;
+
+	/** Equip with given index weapon.
+	 * @param WeaponIndex that we want to be equipped with.
+	 */
+	void EquipWeapon(int32 WeaponIndex);
+	
 private:
 	/** Attach weapon to the Character's given socket
 	 *  @param Weapon that we want to attach.
@@ -61,10 +72,6 @@ private:
 	 */
 	void AttachWeaponToSocket(ABaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
 
-	/** Equip with given index weapon.
-	 * @param WeaponIndex that we want to be equipped with.
-	 */
-	void EquipWeapon(int32 WeaponIndex);
 
 	/** Play animation montage.
 	 * @param Animation to play. 
@@ -85,12 +92,6 @@ private:
 	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
 	
 	ACharacter* GetWeaponOwner() const;
-
-	/** Check if weapon can fire or any animation is currently playing. */
-	bool CanFire() const;
-
-	/** Check if can equip or any animation is currently playing. */
-	bool CanEquip() const;
 
 	/** Check if can reload or any animation is currently playing. */
 	bool CanReload() const;
@@ -120,17 +121,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	UAnimMontage* EquipAnimMontage;
 
-private:
 	/** Currently equipped weapon. */
 	UPROPERTY()
 	ABaseWeapon* CurrentWeapon = nullptr;
 
 	/** Array of weapons that the Character has in the inventory. */
 	TArray<ABaseWeapon*> Weapons;
-
+	
 	/** Current weapon index that we are equipped with. */
 	int32 CurrentWeaponIndex = 0;
-
+	
+private:
 	/** Based on weapon type set current reload montage. */
 	UPROPERTY()
 	UAnimMontage* CurrentReloadAnimMontage = nullptr;
