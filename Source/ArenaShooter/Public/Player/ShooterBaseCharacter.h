@@ -40,6 +40,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	/** Handle Character death. */
+	virtual void OnDeath();
+	
 private:
 	/** Called for forward/backward input.
 	 * @param Value movement input scale value and direction.
@@ -67,9 +70,6 @@ private:
 	void OnStartRunning();
 	void OnStopRunning();
 	
-	/** Handle Character death. */
-	void OnDeath();
-
 	/** Update Character display health.
 	 * @param Health updated health to be displayed.
 	 */

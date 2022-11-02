@@ -17,6 +17,9 @@ public:
 	AAICharacter(const FObjectInitializer& ObjectInitializer);
 
 	FORCEINLINE UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
+
+protected:
+	virtual void OnDeath() override;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
