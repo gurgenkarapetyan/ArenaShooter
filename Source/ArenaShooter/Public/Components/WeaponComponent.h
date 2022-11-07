@@ -46,6 +46,13 @@ public:
 	 */
 	bool TryToAddAmmo(const TSubclassOf<ABaseWeapon>WeaponType, const int32 ClipsAmount);
 	
+	/** Try to fill weapon with Clips and Bullets.
+	 * @param WeaponType weapon type we need to add ammunition. 
+	 * @param ClipsAmount number of clips to fill weapon with.
+	 */
+
+	bool NeedAmmo(const TSubclassOf<ABaseWeapon>WeaponType);
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

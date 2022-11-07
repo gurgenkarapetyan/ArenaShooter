@@ -44,6 +44,9 @@ public:
 
 	/** Check if any bullet/clip is left. */
 	bool IsAmmoEmpty() const;
+
+	/** Check if Clips and Bullets are full. */
+	bool IsAmmoFull() const;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -80,9 +83,6 @@ protected:
 
 	/** Check if bullets in clip are empty. */
 	bool IsClipEmpty() const;
-
-	/** Check if Clips and Bullets are full. */
-	bool IsAmmoFull() const;
 	
 	/** Helper function for outputting information about weapon when firing. */
 	void LogAmmo() const;

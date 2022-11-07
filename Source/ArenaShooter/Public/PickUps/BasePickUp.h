@@ -20,6 +20,8 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 
+	bool CouldBeTaken() const;
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -46,6 +48,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pickup")
 	float RespawnTime = 5.f;
 
+	UPROPERTY(VisibleAnywhere, Category = "Pickup")
+	bool bCouldBeTaken = true;
+	
 private:
+	FTimerHandle RespawnTimerHandle;
+	
 	float RotationYaw = 0.f;
 };

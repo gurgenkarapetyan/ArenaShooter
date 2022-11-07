@@ -288,3 +288,16 @@ bool UWeaponComponent::TryToAddAmmo(const TSubclassOf<ABaseWeapon> WeaponType, c
 	return false;
 }
 
+bool UWeaponComponent::NeedAmmo(const TSubclassOf<ABaseWeapon> WeaponType)
+{
+	for (const auto Weapon: Weapons)
+	{
+		if (Weapon && Weapon->IsA(WeaponType))
+		{
+			return !Weapon->IsAmmoFull();
+		}
+	}
+	
+	return false;
+}
+

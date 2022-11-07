@@ -36,6 +36,7 @@ public class ArenaShooter : ModuleRules
 			"ArenaShooter/Public/AI/Tasks",
 			"ArenaShooter/Public/AI/Services",
 			"ArenaShooter/Public/AI/EQS",
+			"ArenaShooter/Public/AI/Decorators",
 		});
 
 		// Uncomment if you are using Slate UI
