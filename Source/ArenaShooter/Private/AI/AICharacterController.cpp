@@ -15,6 +15,8 @@ AAICharacterController::AAICharacterController()
 	AIPerceptionComponent->bEditableWhenInherited = true;
 
 	SetAISenseConfigSightProperties();
+
+	bWantsPlayerState = true;
 }
 
 void AAICharacterController::SetAISenseConfigSightProperties()

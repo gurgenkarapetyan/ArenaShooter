@@ -37,6 +37,8 @@ public:
 	/** Get Character Health Component. */
 	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
+	void SetPlayerColor(const FLinearColor& Color) const;
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -111,6 +113,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	FVector2D LandedDamage = FVector2D(10.f, 100.f);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Material")
+	FName MaterialColorName = "Paint Color";
 	
 private:
 	bool IsRunPressed = false;

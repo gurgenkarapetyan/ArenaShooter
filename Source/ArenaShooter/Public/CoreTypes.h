@@ -88,3 +88,29 @@ struct FImpactData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
 	FDecalData DecalData;
 };
+
+USTRUCT(BlueprintType)
+struct FGameData
+{
+	GENERATED_USTRUCT_BODY()
+
+	/** Number of players to be spawned in game. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game", meta = (ClampMin = "1", ClampMax = "100"))
+	int32 PlayersNum = 2;
+
+	/** Number of round in game. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game", meta = (ClampMin = "1", ClampMax = "10"))
+	int32 RoundsNum = 4;
+
+	/** Time for each round to last. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game", meta = (ClampMin = "3", ClampMax = "300"))
+	int32 RoundTime = 10;
+
+	/** Default team color if not set. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game")
+	FLinearColor DefaultTeamColor = FLinearColor::Red;
+
+	/** Array of colors for players base on their team ID. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game")
+	TArray<FLinearColor> TeamColors;
+};

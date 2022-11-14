@@ -137,7 +137,7 @@ void ABaseWeapon::ChangeClip()
 	}
 
 	CurrentAmmoData.Bullets = DefaultAmmoData.Bullets;
-	UE_LOG(LogTemp, Warning, TEXT("------------- Change Clip -------------"));
+	// UE_LOG(LogTemp, Warning, TEXT("------------- Change Clip -------------"));
 }
 
 bool ABaseWeapon::CanReload() const
